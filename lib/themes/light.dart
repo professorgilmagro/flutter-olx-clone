@@ -39,7 +39,7 @@ ThemeData AppLightTheme() => ThemeData(
       backgroundColor: Color(0xff9afea0),
       dialogBackgroundColor: Color(0xffffffff),
       indicatorColor: Color(0xff04fb11),
-      hintColor: Color(0x8a000000),
+      hintColor: Colors.grey,
       errorColor: Color(0xffd32f2f),
       buttonTheme: ButtonThemeData(
         textTheme: ButtonTextTheme.normal,
@@ -331,7 +331,7 @@ ThemeData AppLightTheme() => ThemeData(
           fontStyle: FontStyle.normal,
         ),
         hintStyle: TextStyle(
-          color: Color(0xdd000000),
+          color: Colors.green[160],
           fontSize: 14,
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,

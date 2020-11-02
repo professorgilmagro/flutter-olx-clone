@@ -35,6 +35,9 @@ dependencies:
   giffy_dialog: ^1.8.0
   hexcolor: ^1.0.6
   get_it: ^5.0.1
+  mask_text_input_formatter: ^1.1.0
+  email_validator: ^1.0.6
+  password_validator: ^0.0.1
 
 dev_dependencies:
   flutter_test:

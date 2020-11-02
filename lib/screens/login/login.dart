@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:xlo_mobx/screens/signup/register.dart';
+import 'package:xlo_mobx/stores/login.dart';
 import 'package:xlo_mobx/widgets/texts.dart';
 
 class LoginScreen extends StatelessWidget {
+  final loginStore = GetIt.I<LoginStore>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             elevation: 8,
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +44,9 @@ class LoginScreen extends StatelessWidget {
                     bold: true,
                     padding: EdgeInsets.only(left: 3, bottom: 4, top: 8),
                   ),
-                  TextField(
+                  TextFormField(
+                    onChanged: loginStore.setEmail,
+                    validator: loginStore.emailValidator,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
@@ -57,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SimpleText(
-                        'Email',
+                        'Senha',
                         size: 16,
                         color: Colors.grey[700],
                         bold: true,
@@ -72,34 +78,68 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  TextField(
-                    style: TextStyle(fontSize: 16),
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(16),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Theme.of(context).primaryColor),
+                  Observer(
+                    builder: (_) => TextField(
+                      style: TextStyle(fontSize: 16),
+                      obscureText: !loginStore.showPass,
+                      onChanged: loginStore.setPassword,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(16),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            loginStore.showPass
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: loginStore.toggleVisibility,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Theme.of(context).primaryColor),
+                        ),
+                        isDense: true,
                       ),
-                      isDense: true,
                     ),
                   ),
-                  Container(
-                    height: 45,
-                    margin: EdgeInsets.only(top: 20, bottom: 12),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  Observer(
+                    builder: (_) => Container(
+                      margin: EdgeInsets.only(top: 20, bottom: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            color: Colors.black,
+                            child: loginStore.loading
+                                ? SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : SimpleText(
+                                    'ENTRAR',
+                                    size: 14,
+                                    bold: true,
+                                  ),
+                            textColor: Colors.white,
+                            elevation: 0,
+                            onPressed:
+                                loginStore.canSubmit ? loginStore.login : null,
+                          ),
+                          loginStore.error.isNotEmpty
+                              ? SimpleText(
+                                  loginStore.error,
+                                  size: 14,
+                                  align: TextAlign.center,
+                                  bold: true,
+                                  color: Colors.red,
+                                  padding: EdgeInsets.only(top: 5),
+                                )
+                              : Container()
+                        ],
                       ),
-                      color: Colors.orange,
-                      child: SimpleText(
-                        'ENTRAR',
-                        size: 14,
-                        bold: true,
-                      ),
-                      textColor: Colors.white,
-                      elevation: 0,
-                      onPressed: () {},
                     ),
                   ),
                   Divider(

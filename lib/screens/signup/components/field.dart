@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:xlo_mobx/widgets/texts.dart';
 
 class FieldTile extends StatelessWidget {
@@ -10,16 +11,19 @@ class FieldTile extends StatelessWidget {
   final TextInputType keyboardType;
   final Function onChanged;
   final bool obscure;
+  final bool isOk;
+  final List<TextInputFormatter> formatters;
 
-  FieldTile({
-    @required this.label,
-    this.description,
-    this.controller,
-    this.placeholder,
-    this.keyboardType,
-    this.onChanged,
-    this.obscure,
-  });
+  FieldTile(
+      {@required this.label,
+      this.description,
+      this.controller,
+      this.placeholder,
+      this.keyboardType,
+      this.onChanged,
+      this.obscure,
+      this.isOk,
+      this.formatters});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class FieldTile extends StatelessWidget {
           color: Colors.grey[700],
           bold: true,
           align: TextAlign.left,
-          padding: EdgeInsets.only(left: 3, top: 8),
+          padding: EdgeInsets.only(top: 8),
         ),
         SimpleText(
           description ?? '',
@@ -45,11 +49,13 @@ class FieldTile extends StatelessWidget {
         TextField(
           keyboardType: keyboardType,
           onChanged: onChanged,
+          inputFormatters: formatters,
           style: TextStyle(fontSize: 16),
           obscureText: obscure ?? false,
           decoration: InputDecoration(
             hintText: placeholder,
-            contentPadding: EdgeInsets.all(16),
+            suffixIcon: suffixChecker,
+            contentPadding: EdgeInsets.all(14),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).primaryColor),
             ),
@@ -58,6 +64,18 @@ class FieldTile extends StatelessWidget {
         ),
         SizedBox(height: 16),
       ],
+    );
+  }
+
+  Widget get suffixChecker {
+    if (isOk == null) {
+      return null;
+    }
+
+    return Icon(
+      isOk ? Icons.check_circle_rounded : Icons.error,
+      color: isOk ? Colors.green : Colors.red,
+      size: 26,
     );
   }
 }

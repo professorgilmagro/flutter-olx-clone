@@ -8,6 +8,7 @@ class SimpleText extends StatelessWidget {
   final TextAlign align;
   final Color color;
   final bool bold;
+  final bool wrap;
   final TextDecoration decoration;
   final Function onTap;
 
@@ -17,6 +18,7 @@ class SimpleText extends StatelessWidget {
       this.align,
       this.bold,
       this.decoration,
+      this.wrap,
       @required this.size,
       this.onTap});
 
@@ -41,7 +43,7 @@ class SimpleText extends StatelessWidget {
   Text get textWidget {
     return Text(
       text,
-      textAlign: TextAlign.left,
+      textAlign: align ?? TextAlign.left,
       style: GoogleFonts.abel(
           fontWeight: bold ?? false ? FontWeight.bold : FontWeight.normal,
           fontSize: size,
