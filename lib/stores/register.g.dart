@@ -16,40 +16,33 @@ mixin _$RegisterStore on _RegisterStore, Store {
       (_$passConfirmedComputed ??= Computed<bool>(() => super.passConfirmed,
               name: '_RegisterStore.passConfirmed'))
           .value;
-  Computed<bool> _$isMailValidComputed;
+  Computed<FieldChecker> _$nameCheckerComputed;
 
   @override
-  bool get isMailValid =>
-      (_$isMailValidComputed ??= Computed<bool>(() => super.isMailValid,
-              name: '_RegisterStore.isMailValid'))
+  FieldChecker get nameChecker =>
+      (_$nameCheckerComputed ??= Computed<FieldChecker>(() => super.nameChecker,
+              name: '_RegisterStore.nameChecker'))
           .value;
-  Computed<bool> _$isNameValidComputed;
+  Computed<FieldChecker> _$emailCheckerComputed;
 
   @override
-  bool get isNameValid =>
-      (_$isNameValidComputed ??= Computed<bool>(() => super.isNameValid,
-              name: '_RegisterStore.isNameValid'))
-          .value;
-  Computed<bool> _$isPassValidComputed;
+  FieldChecker get emailChecker => (_$emailCheckerComputed ??=
+          Computed<FieldChecker>(() => super.emailChecker,
+              name: '_RegisterStore.emailChecker'))
+      .value;
+  Computed<FieldChecker> _$phoneCheckerComputed;
 
   @override
-  bool get isPassValid =>
-      (_$isPassValidComputed ??= Computed<bool>(() => super.isPassValid,
-              name: '_RegisterStore.isPassValid'))
-          .value;
-  Computed<bool> _$isPhoneValidComputed;
+  FieldChecker get phoneChecker => (_$phoneCheckerComputed ??=
+          Computed<FieldChecker>(() => super.phoneChecker,
+              name: '_RegisterStore.phoneChecker'))
+      .value;
+  Computed<FieldChecker> _$passCheckerComputed;
 
   @override
-  bool get isPhoneValid =>
-      (_$isPhoneValidComputed ??= Computed<bool>(() => super.isPhoneValid,
-              name: '_RegisterStore.isPhoneValid'))
-          .value;
-  Computed<bool> _$isPhoneOkComputed;
-
-  @override
-  bool get isPhoneOk =>
-      (_$isPhoneOkComputed ??= Computed<bool>(() => super.isPhoneOk,
-              name: '_RegisterStore.isPhoneOk'))
+  FieldChecker get passChecker =>
+      (_$passCheckerComputed ??= Computed<FieldChecker>(() => super.passChecker,
+              name: '_RegisterStore.passChecker'))
           .value;
   Computed<bool> _$canSubmitComputed;
 
@@ -267,11 +260,10 @@ phone: ${phone},
 confirm: ${confirm},
 name: ${name},
 passConfirmed: ${passConfirmed},
-isMailValid: ${isMailValid},
-isNameValid: ${isNameValid},
-isPassValid: ${isPassValid},
-isPhoneValid: ${isPhoneValid},
-isPhoneOk: ${isPhoneOk},
+nameChecker: ${nameChecker},
+emailChecker: ${emailChecker},
+phoneChecker: ${phoneChecker},
+passChecker: ${passChecker},
 canSubmit: ${canSubmit}
     ''';
   }

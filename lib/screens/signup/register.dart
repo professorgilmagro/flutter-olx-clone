@@ -35,8 +35,9 @@ class RegisterScreen extends StatelessWidget {
                       label: 'Apelido',
                       placeholder: 'Exemplo: João S.',
                       description: 'Nome que será exibido no seu anúncio',
+                      errorText: store.nameChecker.message,
                       onChanged: store.setName,
-                      isOk: store.name.isEmpty ? null : store.isNameValid,
+                      isOk: store.nameChecker.isOK,
                     ),
                     FieldTile(
                       label: 'E-mail',
@@ -44,12 +45,14 @@ class RegisterScreen extends StatelessWidget {
                       placeholder: 'Exemplo: joao@gmail.com',
                       keyboardType: TextInputType.emailAddress,
                       onChanged: store.setEmail,
-                      isOk: store.email.isEmpty ? null : store.isMailValid,
+                      isOk: store.emailChecker.isOK,
+                      errorText: store.emailChecker.message,
                     ),
                     FieldTile(
                       label: 'Celular',
                       formatters: store.phoneFormatters,
-                      isOk: store.isPhoneOk,
+                      isOk: store.phoneChecker.isOK,
+                      errorText: store.phoneChecker.message,
                       onChanged: store.setPhone,
                       placeholder: '(11) 99999-9999',
                       keyboardType: TextInputType.phone,
@@ -58,16 +61,17 @@ class RegisterScreen extends StatelessWidget {
                     FieldTile(
                       label: 'Senha',
                       onChanged: store.setPassword,
-                      isOk: store.password.isEmpty ? null : store.isPassValid,
+                      isOk: store.passChecker.isOK,
+                      errorText: store.passChecker.message,
                       description:
-                          'Use números, letras maiúsculas e minúsculas',
+                          'Minímo 8 digitos, números, letras e caracteres especiais',
                       obscure: true,
                     ),
                     FieldTile(
                       label: 'Confirmar Senha',
                       description: 'Repita a senha',
                       onChanged: store.setConfirmPass,
-                      isOk: store.confirm.isEmpty ? null : store.passConfirmed,
+                      isOk: store.confirm != null ? store.passConfirmed : null,
                       obscure: true,
                     ),
                     Container(

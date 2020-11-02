@@ -337,8 +337,8 @@ ThemeData AppLightTheme() => ThemeData(
           fontStyle: FontStyle.normal,
         ),
         errorStyle: TextStyle(
-          color: Color(0xdd000000),
-          fontSize: 14,
+          color: Colors.red,
+          fontSize: 11,
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
         ),

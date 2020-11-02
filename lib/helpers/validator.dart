@@ -1,5 +1,5 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:password_validator/password_validator.dart';
+import 'package:the_validator/the_validator.dart';
 
 class FormValidator {
   String value;
@@ -105,14 +105,20 @@ class FormValidator {
       return 'Informe a senha';
     }
 
-    return _passValidator.validate(value) ? null : 'Senha muito fraca';
+    if (_isValidPass) {
+      return null;
+    }
+
+    return 'A senha não atende os requisitos de segurança.';
   }
 
-  PasswordValidator get _passValidator {
-    return PasswordValidator(
-      uppercase: 1,
-      min: 6,
-      digits: 5,
+  bool get _isValidPass {
+    return Validator.isPassword(
+      value,
+      minLength: 8,
+      shouldContainCapitalLetter: true,
+      shouldContainNumber: true,
+      shouldContainSpecialChars: true,
     );
   }
 }

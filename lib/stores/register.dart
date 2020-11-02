@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
-import 'package:xlo_mobx/helpers/validator.dart';
+import 'package:xlo_mobx/helpers/checker_field.dart';
 
 part 'register.g.dart';
 
@@ -10,13 +10,13 @@ class RegisterStore = _RegisterStore with _$RegisterStore;
 abstract class _RegisterStore with Store {
   @observable
   @observable
-  String email = '';
+  String email;
 
   @observable
-  String error = '';
+  String error;
 
   @observable
-  String password = '';
+  String password;
 
   @observable
   bool showPass = false;
@@ -25,13 +25,13 @@ abstract class _RegisterStore with Store {
   bool loading = false;
 
   @observable
-  String phone = '';
+  String phone;
 
   @observable
-  String confirm = '';
+  String confirm;
 
   @observable
-  String name = '';
+  String name;
 
   @action
   void toggleVisibility() => showPass = !showPass;
@@ -53,33 +53,35 @@ abstract class _RegisterStore with Store {
 
   @computed
   bool get passConfirmed {
-    return password.isNotEmpty && password == confirm;
+    return password != null && password == confirm;
   }
 
   @computed
-  bool get isMailValid => FormValidator.isValidEmail(email);
+  FieldChecker get nameChecker {
+    return FieldChecker('name', name);
+  }
 
   @computed
-  bool get isNameValid => FormValidator.isValidName(name);
+  FieldChecker get emailChecker {
+    return FieldChecker('email', email);
+  }
 
   @computed
-  bool get isPassValid => FormValidator.isValidPassword(password);
+  FieldChecker get phoneChecker {
+    return FieldChecker('phone', phone);
+  }
 
   @computed
-  bool get isPhoneValid => FormValidator.isValidPhone(phone);
-
-  @computed
-  bool get isPhoneOk {
-    if (phone.isEmpty) return null;
-    return isPhoneValid;
+  FieldChecker get passChecker {
+    return FieldChecker('password', password);
   }
 
   @computed
   bool get canSubmit {
-    return isMailValid &&
-        isNameValid &&
-        isPassValid &&
-        isPhoneValid &&
+    return emailChecker.canSubmit &&
+        nameChecker.canSubmit &&
+        passChecker.canSubmit &&
+        phoneChecker.canSubmit &&
         passConfirmed;
   }
 
