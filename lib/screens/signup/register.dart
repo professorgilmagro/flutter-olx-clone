@@ -1,12 +1,33 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/screens/login/login.dart';
 import 'package:xlo_mobx/screens/signup/components/field.dart';
 import 'package:xlo_mobx/stores/register.dart';
 import 'package:xlo_mobx/widgets/texts.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final store = RegisterStore();
+
+  @override
+  void initState() {
+    super.initState();
+    reaction((_) => store.error, (_) {
+      CoolAlert.show(
+        context: context,
+        title: 'Não foi possível cadastrar',
+        type: CoolAlertType.error,
+        text: store.error,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +53,7 @@ class RegisterScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     FieldTile(
+                      disabled: store.loading,
                       label: 'Apelido',
                       placeholder: 'Exemplo: João S.',
                       description: 'Nome que será exibido no seu anúncio',
@@ -40,6 +62,7 @@ class RegisterScreen extends StatelessWidget {
                       isOk: store.nameChecker.isOK,
                     ),
                     FieldTile(
+                      disabled: store.loading,
                       label: 'E-mail',
                       description: 'Enviaremos um e-mail de confirmação',
                       placeholder: 'Exemplo: joao@gmail.com',
@@ -49,6 +72,7 @@ class RegisterScreen extends StatelessWidget {
                       errorText: store.emailChecker.message,
                     ),
                     FieldTile(
+                      disabled: store.loading,
                       label: 'Celular',
                       formatters: store.phoneFormatters,
                       onChanged: store.setPhone,
@@ -57,6 +81,7 @@ class RegisterScreen extends StatelessWidget {
                       description: 'Proteja sua conta',
                     ),
                     FieldTile(
+                      disabled: store.loading,
                       label: 'Senha',
                       onChanged: store.setPassword,
                       isOk: store.passChecker.isOK,
@@ -66,6 +91,7 @@ class RegisterScreen extends StatelessWidget {
                       obscure: true,
                     ),
                     FieldTile(
+                      disabled: store.loading,
                       label: 'Confirmar Senha',
                       description: 'Repita a senha',
                       onChanged: store.setConfirmPass,
@@ -96,9 +122,7 @@ class RegisterScreen extends StatelessWidget {
                         onPressed: store.registerPressed,
                       ),
                     ),
-                    Divider(
-                      color: Colors.black,
-                    ),
+                    Divider(color: Colors.black),
                     Wrap(
                       alignment: WrapAlignment.spaceBetween,
                       children: [

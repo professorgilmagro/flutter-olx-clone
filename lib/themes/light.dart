@@ -393,7 +393,7 @@ ThemeData AppLightTheme() => ThemeData(
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.lightGreen,
+            color: Colors.grey,
             width: 1,
             style: BorderStyle.solid,
           ),

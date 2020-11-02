@@ -53,7 +53,7 @@ abstract class _LoginStore with Store {
     await Future.delayed(Duration(seconds: 3));
     loading = false;
     signIn = true;
-    error = 'Usuário ou senha inválidos!';
+    error = '';
   }
 
   @computed

@@ -5,9 +5,11 @@ import 'package:xlo_mobx/services/api.dart';
 abstract class BaseRepository {
   final BaseModel model;
 
-  BaseRepository(this.model);
+  BaseRepository(this.model) {
+    initServer;
+  }
 
-  Future<Parse> get server async => (await Api.instance).server;
+  Future<Parse> get initServer async => await Api.instance.initServer();
 
   QueryBuilder get query => QueryBuilder(object);
 

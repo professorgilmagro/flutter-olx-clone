@@ -12,6 +12,7 @@ class FieldTile extends StatelessWidget {
   final Function onChanged;
   final bool obscure;
   final bool isOk;
+  final bool disabled;
   final String errorText;
   final List<TextInputFormatter> formatters;
 
@@ -24,6 +25,7 @@ class FieldTile extends StatelessWidget {
       this.onChanged,
       this.obscure,
       this.isOk,
+      this.disabled,
       this.errorText,
       this.formatters});
 
@@ -53,9 +55,12 @@ class FieldTile extends StatelessWidget {
           onChanged: onChanged,
           inputFormatters: formatters,
           style: TextStyle(fontSize: 16),
+          enabled: !(disabled ?? false),
           obscureText: obscure ?? false,
           decoration: InputDecoration(
             hintText: placeholder,
+            fillColor: disabled ? Colors.grey[150] : null,
+            filled: disabled,
             errorText: errorText,
             suffixIcon: suffixChecker,
             contentPadding: EdgeInsets.all(14),

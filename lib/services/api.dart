@@ -7,13 +7,13 @@ class Api {
   static const BASE_URL = 'https://parseapi.back4app.com/';
   Parse _server;
 
-  static Future<Api> get instance async {
+  static Api get instance {
     return _instance;
   }
 
   Api._internal() {}
 
-  Future<Parse> get server async {
+  Future<Parse> initServer() async {
     if (_server == null) {
       _server = await _getParseService();
     }

@@ -2,6 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/helpers/checker_field.dart';
+import 'package:xlo_mobx/models/User.dart';
+import 'package:xlo_mobx/repositories/user.dart';
 
 part 'register.g.dart';
 
@@ -12,7 +14,7 @@ abstract class _RegisterStore with Store {
   String email;
 
   @observable
-  String error;
+  String error = '';
 
   @observable
   String password;
@@ -103,7 +105,16 @@ abstract class _RegisterStore with Store {
   @action
   Future<void> register() async {
     loading = true;
-    await Future.delayed(Duration(seconds: 2));
+    try {
+      await UserRepository(_user).signUp();
+    } catch (message) {
+      error = message;
+    }
+
     loading = false;
+  }
+
+  User get _user {
+    return User(name: name, email: email, phone: phone, password: password);
   }
 }
