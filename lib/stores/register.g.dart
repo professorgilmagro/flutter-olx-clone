@@ -51,6 +51,13 @@ mixin _$RegisterStore on _RegisterStore, Store {
       (_$canSubmitComputed ??= Computed<bool>(() => super.canSubmit,
               name: '_RegisterStore.canSubmit'))
           .value;
+  Computed<Future<void> Function()> _$registerPressedComputed;
+
+  @override
+  Future<void> Function() get registerPressed => (_$registerPressedComputed ??=
+          Computed<Future<void> Function()>(() => super.registerPressed,
+              name: '_RegisterStore.registerPressed'))
+      .value;
 
   final _$emailAtom = Atom(name: '_RegisterStore.email');
 
@@ -264,7 +271,8 @@ nameChecker: ${nameChecker},
 emailChecker: ${emailChecker},
 phoneChecker: ${phoneChecker},
 passChecker: ${passChecker},
-canSubmit: ${canSubmit}
+canSubmit: ${canSubmit},
+registerPressed: ${registerPressed}
     ''';
   }
 }

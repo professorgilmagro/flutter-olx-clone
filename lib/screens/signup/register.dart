@@ -51,8 +51,6 @@ class RegisterScreen extends StatelessWidget {
                     FieldTile(
                       label: 'Celular',
                       formatters: store.phoneFormatters,
-                      isOk: store.phoneChecker.isOK,
-                      errorText: store.phoneChecker.message,
                       onChanged: store.setPhone,
                       placeholder: '(11) 99999-9999',
                       keyboardType: TextInputType.phone,
@@ -95,7 +93,7 @@ class RegisterScreen extends StatelessWidget {
                               ),
                         textColor: Colors.white,
                         elevation: 0,
-                        onPressed: store.canSubmit ? store.register : null,
+                        onPressed: store.registerPressed,
                       ),
                     ),
                     Divider(

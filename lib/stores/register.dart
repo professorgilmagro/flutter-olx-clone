@@ -9,7 +9,6 @@ class RegisterStore = _RegisterStore with _$RegisterStore;
 
 abstract class _RegisterStore with Store {
   @observable
-  @observable
   String email;
 
   @observable
@@ -83,6 +82,11 @@ abstract class _RegisterStore with Store {
         passChecker.canSubmit &&
         phoneChecker.canSubmit &&
         passConfirmed;
+  }
+
+  @computed
+  Future<void> Function() get registerPressed {
+    return canSubmit ? register : null;
   }
 
   List<TextInputFormatter> get phoneFormatters {
