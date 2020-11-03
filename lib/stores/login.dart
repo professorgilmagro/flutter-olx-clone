@@ -1,7 +1,10 @@
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/helpers/validator.dart';
+import 'package:xlo_mobx/repositories/user.dart';
+import 'package:xlo_mobx/stores/user_manager.dart';
 
 part 'login.g.dart';
 
@@ -50,10 +53,32 @@ abstract class _LoginStore with Store {
   @action
   Future<void> login() async {
     loading = true;
-    await Future.delayed(Duration(seconds: 3));
-    loading = false;
-    signIn = true;
     error = '';
+
+    try {
+      final loggedUser = await UserRepository.loginWithEmail(email, password);
+      GetIt.I<UserManagerStore>().setUser(loggedUser);
+      signIn = true;
+    } catch (message) {
+      error = message.toString();
+    }
+
+    loading = false;
+  }
+
+  @action
+  Future<void> logout() async {
+    loading = true;
+
+    try {
+      final user = GetIt.I<UserManagerStore>().user;
+      await UserRepository.logout(user);
+      signIn = false;
+    } catch (message) {
+      error = message;
+    }
+
+    loading = false;
   }
 
   @computed

@@ -4,6 +4,7 @@ import 'package:xlo_mobx/screens/splash/intro.dart';
 import 'package:xlo_mobx/services/api.dart';
 import 'package:xlo_mobx/stores/login.dart';
 import 'package:xlo_mobx/stores/page.dart';
+import 'package:xlo_mobx/stores/user_manager.dart';
 import 'package:xlo_mobx/themes/light.dart';
 
 void main() async {
@@ -17,6 +18,7 @@ void main() async {
 void setupLocators() {
   GetIt.I.registerSingleton(PageStore());
   GetIt.I.registerSingleton(LoginStore());
+  GetIt.I.registerSingleton(UserManagerStore());
 }
 
 class XloCloneApp extends StatelessWidget {

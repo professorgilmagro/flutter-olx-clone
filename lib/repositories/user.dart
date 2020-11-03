@@ -19,4 +19,22 @@ class UserRepository extends BaseRepository {
       return Future.error(ParseErrors.getDescription(response.error.code));
     }
   }
+
+  static Future<User> loginWithEmail(String email, String password) async {
+    final parseUser = ParseUser(email, password, null);
+    final response = await parseUser.login();
+    if (response.success) {
+      return User.fromParse(response.result);
+    }
+
+    return Future.error(ParseErrors.getDescription(response.error.code));
+  }
+
+  static Future<void> logout(User user) async {
+    final parseUser = ParseUser(user.email, user.password, null);
+    final response = await parseUser.logout();
+    if (!response.success) {
+      return Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
 }

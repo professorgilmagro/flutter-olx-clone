@@ -1,12 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:xlo_mobx/screens/login/login.dart';
+import 'package:xlo_mobx/stores/login.dart';
+import 'package:xlo_mobx/stores/user_manager.dart';
+import 'package:xlo_mobx/widgets/texts.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
+  final loginStore = GetIt.I<LoginStore>();
+  final userStore = GetIt.I<UserManagerStore>();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        if (loginStore.signIn) {
+          await loginStore.logout();
+        }
         Navigator.of(context).pop();
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => LoginScreen()));
@@ -29,16 +38,20 @@ class CustomDrawerHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Acesse seu conta agora!',
+                    loginStore.signIn
+                        ? userStore.user.name
+                        : 'Acesse seu conta agora!',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5),
-                  Text(
-                    'Clique aqui',
-                    style: TextStyle(color: Colors.white),
+                  SimpleText(
+                    loginStore.signIn ? 'Sair' : 'Clique aqui',
+                    color: Colors.white,
+                    size: 14,
+                    decoration: TextDecoration.underline,
                   ),
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:xlo_mobx/models/Base.dart';
 
 enum UserType { PARTICULAR, PROFESSIONAL }
@@ -41,12 +42,22 @@ class User extends BaseModel {
 
   @override
   User fromJson(Map<String, dynamic> data) {
-    id = data['id'] ?? null;
+    id = data['id'] ?? data['objectId'] ?? null;
     name = data['name'] ?? null;
     email = data['email'] ?? null;
     phone = data['phone'] ?? null;
     password = data['password'] ?? null;
 
     return this;
+  }
+
+  factory User.fromParse(ParseUser result) {
+    return User(
+      id: result.objectId,
+      name: result.get('name'),
+      email: result.get('email'),
+      phone: result.get('phone'),
+      type: UserType.values[result.get('type')],
+    );
   }
 }
