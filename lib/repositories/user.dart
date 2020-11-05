@@ -37,4 +37,18 @@ class UserRepository extends BaseRepository {
       return Future.error(ParseErrors.getDescription(response.error.code));
     }
   }
+
+  static Future<User> currentUser() async {
+    final parseUser = await ParseUser.currentUser();
+    if (parseUser == null) return null;
+
+    final token = parseUser.sessionToken;
+    final response = await ParseUser.getCurrentUserFromServer(token);
+    if (response.success) {
+      return User.fromParse(response.result);
+    }
+
+    await parseUser.logout();
+    return null;
+  }
 }

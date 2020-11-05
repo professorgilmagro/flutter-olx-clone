@@ -5,9 +5,7 @@ import 'package:xlo_mobx/services/api.dart';
 abstract class BaseRepository {
   final BaseModel model;
 
-  BaseRepository(this.model) {
-    initServer;
-  }
+  BaseRepository(this.model);
 
   Future<Parse> get initServer async => await Api.instance.initServer();
 

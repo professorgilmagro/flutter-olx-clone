@@ -2,7 +2,6 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/screens/signup/register.dart';
 import 'package:xlo_mobx/stores/login.dart';
@@ -14,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final loginStore = GetIt.I<LoginStore>();
+  final loginStore = LoginStore();
 
   @override
   void didChangeDependencies() {
@@ -22,14 +21,15 @@ class _LoginScreenState extends State<LoginScreen> {
     reaction((_) => loginStore.signIn, (isLogged) {
       if (isLogged) {
         CoolAlert.show(
-            context: context,
-            type: CoolAlertType.success,
-            title: 'Sucesso!',
-            text: 'Login efetuado com sucesso!',
-            onConfirmBtnTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            });
+          context: context,
+          type: CoolAlertType.success,
+          title: 'Sucesso!',
+          text: 'Login efetuado com sucesso!',
+          onConfirmBtnTap: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          },
+        );
       }
     });
   }

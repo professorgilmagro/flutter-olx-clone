@@ -66,21 +66,6 @@ abstract class _LoginStore with Store {
     loading = false;
   }
 
-  @action
-  Future<void> logout() async {
-    loading = true;
-
-    try {
-      final user = GetIt.I<UserManagerStore>().user;
-      await UserRepository.logout(user);
-      signIn = false;
-    } catch (message) {
-      error = message;
-    }
-
-    loading = false;
-  }
-
   @computed
   bool get canSubmit {
     return FormValidator.isValidEmail(email) &&

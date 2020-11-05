@@ -26,7 +26,7 @@ class XloCloneApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'XLO Clone',
-      theme: AppLightTheme(),
+      theme: AppLightTheme,
       home: Splash(),
     );
   }

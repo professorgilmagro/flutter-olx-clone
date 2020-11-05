@@ -113,13 +113,6 @@ mixin _$LoginStore on _LoginStore, Store {
     return _$loginAsyncAction.run(() => super.login());
   }
 
-  final _$logoutAsyncAction = AsyncAction('_LoginStore.logout');
-
-  @override
-  Future<void> logout() {
-    return _$logoutAsyncAction.run(() => super.logout());
-  }
-
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
 
   @override
